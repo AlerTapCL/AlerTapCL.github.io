@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Mi Perfil - AlerTap{% endblock %}
+{% block content %}
+
+<div class="container text-center">
+  <h2 class="mb-4">Bienvenido, {{ usuario.nombre }}</h2>
+  <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+  <p><strong>ID de usuario:</strong> {{ usuario.id }}</p>
+  <a href="{{ url_for('editar_perfil') }}" class="btn btn-outline-secondary mt-3">Editar perfil</a>
+  <a href="{{ url_for('perfil_publico', slug=usuario.slug) }}" class="btn btn-outline-info">Ver perfil público</a>
+  <a href="{{ url_for('logout') }}" class="btn btn-outline-primary mt-3">Cerrar sesión</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Ejemplo de Perfil - AlerTap{% endblock %}
+{% block content %}
+
+<section class="perfil-ejemplo">
+  <div class="container perfil-card">
+    <h2 class="text-center">Ficha Médica Digital</h2>
+    
+    <div class="perfil-content">
+      <div class="perfil-foto">
+        <img src="{{ url_for('static', filename='perfil niño alertap.png') }}" alt="Foto de perfil">
+      </div>
+
+      <div class="perfil-datos">
+        <p><strong>Nombre:</strong> Joaquín Reyes</p>
+        <p><strong>Edad:</strong> 7 años</p>
+        <p><strong>Grupo Sanguíneo:</strong> O+</p>
+        <p><strong>Enfermedades:</strong> Asma</p>
+        <p><strong>Medicamentos:</strong> Salbutamol</p>
+        <p><strong>Alergias:</strong> Ninguna</p>
+        <p><strong>Contacto de Emergencia:</strong> Carla Reyes</p>
+        <p><strong>Teléfono:</strong> +56 9 7654 3210</p>
+        <p><strong>Observaciones:</strong> Puede desorientarse si se asusta. Lleva inhalador.</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/" class="btn-cta">← Volver al Inicio</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

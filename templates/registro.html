@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Registro - AlerTap{% endblock %}
+{% block content %}
+<section class="registro container">
+  <h2 class="text-center mb-4">Crea tu cuenta</h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" name="nombre" required>
+    </div>
+    <div class="mb-3">
+      <label for="correo" class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" name="correo" required>
+    </div>
+    <div class="mb-3">
+      <label for="contraseña" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" name="contraseña" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+  </form>
+</section>
+{% endblock %}

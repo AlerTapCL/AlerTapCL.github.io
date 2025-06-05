@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Ficha Médica Digital - AlerTap{% endblock %}
+{% block content %}
+
+<div class="perfil-card mx-auto text-white p-4" style="max-width: 700px; background-color: #002030; border-radius: 15px;">
+  <h2 class="text-center mb-4 text-info">Ficha Médica Digital</h2>
+
+  {% if usuario.foto_url %}
+    <div class="text-center mb-4">
+      <img src="{{ usuario.foto_url }}" class="rounded" style="max-height: 200px;">
+    </div>
+  {% endif %}
+
+  <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+  <p><strong>Edad:</strong> {{ usuario.edad }}</p>
+  <p><strong>Grupo Sanguíneo:</strong> {{ usuario.grupo_sanguineo }}</p>
+  <p><strong>Enfermedades:</strong> {{ usuario.enfermedades }}</p>
+  <p><strong>Medicamentos:</strong> {{ usuario.medicamentos }}</p>
+  <p><strong>Alergias:</strong> {{ usuario.alergias }}</p>
+  <p><strong>Contacto de Emergencia:</strong> {{ usuario.contacto_emergencia }}</p>
+  <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+  <p><strong>Observaciones:</strong> {{ usuario.observaciones }}</p>
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('inicio') }}" class="btn btn-info">← Volver al Inicio</a>
+  </div>
+</div>
+
+{% endblock %}

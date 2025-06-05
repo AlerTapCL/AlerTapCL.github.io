@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Preguntas Frecuentes - AlerTap{% endblock %}
+{% block content %}
+
+<section class="faq-section">
+  <div class="container">
+    <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
+
+    <div class="accordion accordion-flush" id="faqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a1">
+            ¿Qué es la pulsera AlerTap?
+          </button>
+        </h2>
+        <div id="a1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Es una pulsera con tecnología NFC que permite acceder a tu ficha médica digital en situaciones de emergencia.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">
+            ¿Necesito internet para que funcione?
+          </button>
+        </h2>
+        <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            No. La pulsera activa una URL vía NFC. Solo se necesita internet si quieres ver el perfil médico.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">
+            ¿Quién puede leer mi información?
+          </button>
+        </h2>
+        <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Cualquier persona que acerque un celular con NFC podrá ver los datos médicos públicos que tú decidiste compartir.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q4">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a4">
+            ¿Puedo modificar mi ficha médica?
+          </button>
+        </h2>
+        <div id="a4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Sí. Desde tu cuenta puedes actualizar tus datos en cualquier momento, y se verán reflejados al instante.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

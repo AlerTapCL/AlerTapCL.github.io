@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ persona.nombre }} - SOS NFC{% endblock %}
+{% block content %}
+<style>
+    .emergency-card {
+        background-color: #fff;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 15px;
+        border: 3px solid red;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .emergency-card h1 {
+        color: red;
+        font-weight: bold;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .emergency-card img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .emergency-card p {
+        text-align: left;
+        margin: 5px 0;
+    }
+</style>
+
+<div class="emergency-card">
+    <h1>EMERGENCIA</h1>
+    <img src="{{ url_for('static', filename='foto_paciente.jpg') }}" alt="Foto paciente">
+
+    <p><strong>Nombre:</strong> {{ persona.nombre }}</p>
+    <p><strong>Edad:</strong> {{ persona.edad }}</p>
+    <p><strong>Grupo Sanguíneo:</strong> {{ persona.grupo_sanguineo }}</p>
+    <p><strong>Enfermedades:</strong> {{ persona.enfermedades | join(', ') }}</p>
+    <p><strong>Medicamentos:</strong> {{ persona.medicacion | join(', ') }}</p>
+    <p><strong>Alergias:</strong> {{ persona.alergias | join(', ') if persona.alergias else 'Ninguna' }}</p>
+    <p><strong>Contacto de Emergencia:</strong> {{ persona.contacto.nombre }}</p>
+    <p><strong>Teléfono:</strong> {{ persona.contacto.telefono }}</p>
+    <p><strong>Observaciones:</strong> {{ persona.observaciones }}</p>
+
+    <a href="/" class="btn btn-outline-primary mt-4">
+        <i class="fas fa-arrow-left"></i> Volver al inicio
+    </a>
+</div>
+{% endblock %}

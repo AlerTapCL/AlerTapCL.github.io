@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Testimonios - AlerTap{% endblock %}
+{% block content %}
+<div class="container text-center">
+  <h2 class="mb-4 text-primary">Testimonios</h2>
+  <p class="mb-4">Nuestros usuarios comparten su experiencia con AlerTap:</p>
+
+  <video controls width="700" class="shadow-lg rounded mb-5">
+    <source src="{{ url_for('static', filename='Video_Feedback_alertap.mp4') }}" type="video/mp4">
+    Tu navegador no soporta video HTML5.
+  </video>
+</div>
+{% endblock %}

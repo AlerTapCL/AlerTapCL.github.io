@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Inicio - AlerTap{% endblock %}
+{% block content %}
+
+<!-- HERO SLIDER -->
+<section class="hero-slider">
+  <div class="slider-container">
+    <div class="slide active">
+      <img src="{{ url_for('static', filename='pulsera niño alertap.png') }}" alt="Niño con pulsera">
+    </div>
+    <div class="slide">
+      <img src="{{ url_for('static', filename='pulsera abuelo alertap.png') }}" alt="Adulto mayor con pulsera">
+    </div>
+  </div>
+
+  <div class="hero-overlay hero-offset">
+    <h1>Protección inteligente para niños y adultos mayores</h1>
+    <p>Descubre AlerTap, la pulsera SOS conectada con tu información vital.</p>
+    <a href="/registro" class="btn-cta">Comenzar</a>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 5000);
+});
+</script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,16 @@
+{
+  "juan-perez": {
+    "nombre": "Juan Pérez",
+    "edad": 78,
+    "enfermedades": ["Diabetes tipo 2", "Hipertensión"],
+    "medicacion": ["Insulina NPH", "Losartán"],
+    "alergias": ["Penicilina"],
+    "grupo_sanguineo": "O+",
+    "contacto": {
+      "nombre": "María Pérez",
+      "telefono": "+56 9 1234 5678"
+    },
+    "observaciones": "Tiene marcapasos. Solo habla español.",
+    "activo": true
+  }
+}

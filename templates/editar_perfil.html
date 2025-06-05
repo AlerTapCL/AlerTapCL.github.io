@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Editar Perfil - AlerTap{% endblock %}
+{% block content %}
+
+<div class="container" style="max-width: 700px;">
+  <h2 class="mb-4">Editar mi ficha médica</h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input name="nombre" class="form-control" value="{{ usuario.nombre }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Edad</label>
+      <input name="edad" class="form-control" value="{{ usuario.edad }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Grupo Sanguíneo</label>
+      <input name="grupo_sanguineo" class="form-control" value="{{ usuario.grupo_sanguineo }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Enfermedades</label>
+      <input name="enfermedades" class="form-control" value="{{ usuario.enfermedades }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Medicamentos</label>
+      <input name="medicamentos" class="form-control" value="{{ usuario.medicamentos }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Alergias</label>
+      <input name="alergias" class="form-control" value="{{ usuario.alergias }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Contacto de Emergencia</label>
+      <input name="contacto_emergencia" class="form-control" value="{{ usuario.contacto_emergencia }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Teléfono</label>
+      <input name="telefono" class="form-control" value="{{ usuario.telefono }}">
+    </div>
+
+    <div class="mb-3">
+      <label>Observaciones</label>
+      <textarea name="observaciones" class="form-control">{{ usuario.observaciones }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>URL de la foto</label>
+      <input name="foto_url" class="form-control" value="{{ usuario.foto_url }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ url_for('mi_perfil') }}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+<div class="mb-3">
+  <label for="correo_notificacion" class="form-label">Correo para notificaciones</label>
+  <input type="email" class="form-control" name="correo_notificacion" value="{{ usuario.correo_notificacion }}">
+</div>
+
+{% endblock %}
