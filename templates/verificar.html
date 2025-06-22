@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Verificar correo</h2>
+<p>Se ha enviado un código de verificación a {{ correo }}</p>
+<form method="POST">
+    <input type="text" name="codigo" placeholder="Código de 6 dígitos" required>
+    <button type="submit">Verificar</button>
+</form>
+{% endblock %}

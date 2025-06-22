@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime  # Importación necesaria
 
 db = SQLAlchemy()
 
@@ -23,3 +24,8 @@ class Usuario(db.Model, UserMixin):
 
     # ✅ Campo para notificaciones
     correo_notificacion = db.Column(db.String(120))
+
+    # ✅ Verificación de correo
+    verificado = db.Column(db.Boolean, default=False)
+    codigo_verificacion = db.Column(db.String(6), nullable=True)
+    expiracion_codigo = db.Column(db.DateTime, nullable=True)

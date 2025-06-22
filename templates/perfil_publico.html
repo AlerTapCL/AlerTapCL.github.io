@@ -25,5 +25,38 @@
     <a href="{{ url_for('inicio') }}" class="btn btn-info">← Volver al Inicio</a>
   </div>
 </div>
+<button onclick="enviarUbicacion()" class="btn btn-primary mt-3">📍 Enviar mi ubicación</button>
+
+<script>
+function enviarUbicacion() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            fetch("/enviar-ubicacion", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    latitud: position.coords.latitude,
+                    longitud: position.coords.longitude,
+                    perfil: "{{ usuario.slug }}"
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Ubicación enviada correctamente.");
+                } else {
+                    alert("No se pudo enviar la ubicación.");
+                }
+            });
+        }, function(error) {
+            alert("Error al obtener la ubicación: " + error.message);
+        });
+    } else {
+        alert("La geolocalización no está soportada en este navegador.");
+    }
+}
+</script>
+
 
 {% endblock %}

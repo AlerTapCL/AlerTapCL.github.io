@@ -37,7 +37,7 @@ def inicio():
 def mostrar_perfil(perfil):
     persona = personas.get(perfil)
     if persona and persona.get("activo", True):
-        return render_template("perfil.html", persona=persona)
+        return render_template("perfil.html", persona=persona, perfil=perfil)
     else:
         abort(404)
 
@@ -68,6 +68,17 @@ def mensaje_enviado():
     return render_template("mensaje_enviado.html")
 
 # === Registro de usuario ===
+import random
+from datetime import datetime, timedelta
+# Ya debes tener: smtplib, EmailMessage, etc.
+
+def generar_codigo_verificacion():
+    return str(random.randint(100000, 999999))
+import re  
+
+def es_contraseña_segura(contraseña):
+    return len(contraseña) >= 8 and any(c.isupper() for c in contraseña)
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -75,6 +86,11 @@ def registro():
         correo = request.form['correo']
         contraseña = request.form['contraseña']
 
+        # Esta parte estaba mal indentada — ahora está dentro del if
+        if not es_contraseña_segura(contraseña):
+            flash("La contraseña debe tener al menos 8 caracteres y una letra mayúscula.")
+            return redirect(url_for('registro'))
+        
         existente = Usuario.query.filter_by(correo=correo).first()
         if existente:
             flash("Ese correo ya está registrado.")
@@ -83,20 +99,28 @@ def registro():
         slug_unico = uuid.uuid4().hex[:10]
         hash_pass = bcrypt.generate_password_hash(contraseña).decode('utf-8')
 
+        codigo = generar_codigo_verificacion()
+        expiracion = datetime.utcnow() + timedelta(minutes=15)
+
         nuevo = Usuario(
             nombre=nombre,
             correo=correo,
             contraseña=hash_pass,
             slug=slug_unico,
-            correo_notificacion=correo  # Por defecto usamos el mismo correo para notificaciones
+            correo_notificacion=correo,
+            verificado=False,
+            codigo_verificacion=codigo,
+            expiracion_codigo=expiracion
         )
         db.session.add(nuevo)
         db.session.commit()
 
-        flash("¡Registro exitoso! Ya puedes iniciar sesión.")
-        return redirect(url_for('login'))
+        enviar_codigo_verificacion(correo, codigo)
+        flash("Hemos enviado un código a tu correo. Verifícalo para activar tu cuenta.")
+        return redirect(url_for('verificar_correo', correo=correo))
 
     return render_template("registro.html")
+
 
 # === Login ===
 @app.route('/login', methods=['GET', 'POST'])
@@ -225,6 +249,98 @@ def pagina_no_encontrada(e):
 @app.route('/testimonios')
 def testimonios():
     return render_template("testimonios.html")
+
+@app.route('/enviar-ubicacion', methods=['POST'])
+def enviar_ubicacion():
+    data = request.get_json()
+    lat = data.get('latitud')
+    lon = data.get('longitud')
+    perfil = data.get('perfil')
+
+    persona = personas.get(perfil)
+    if persona:
+        correo_destino = persona["contacto"].get("correo", "") or "alertapteam@gmail.com"
+        nombre_persona = persona.get("nombre", "Paciente")
+    else:
+        usuario = Usuario.query.filter_by(slug=perfil).first()
+        if not usuario:
+            return "Perfil no encontrado", 404
+        correo_destino = usuario.correo_notificacion or usuario.correo
+        nombre_persona = usuario.nombre
+
+    ubicacion_url = f"https://www.google.com/maps?q={lat},{lon}"
+
+    msg = EmailMessage()
+    msg["Subject"] = f"📍 Ubicación enviada desde la ficha de {nombre_persona}"
+    msg["From"] = "alertapteam@gmail.com"
+    msg["To"] = correo_destino
+    msg.set_content(f"""Hola, se ha enviado la ubicación actual desde la ficha médica de {nombre_persona}.
+
+Puedes verla aquí:
+{ubicacion_url}
+
+— AlerTap
+""")
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login("alertapteam@gmail.com", "makjbbeigmvofxlo")
+            smtp.send_message(msg)
+            print("✅ Ubicación enviada")
+        return "Ubicación enviada", 200
+    except Exception as e:
+        print("❌ Error al enviar ubicación:", e)
+        return "Error al enviar", 500
+
+
+@app.route('/verificar', methods=['GET', 'POST'])
+def verificar_correo():
+    correo = request.args.get('correo')
+    usuario = Usuario.query.filter_by(correo=correo).first_or_404()
+
+    if request.method == 'POST':
+        codigo_ingresado = request.form.get('codigo')
+        if (usuario.codigo_verificacion == codigo_ingresado and
+            usuario.expiracion_codigo and
+            datetime.utcnow() <= usuario.expiracion_codigo):
+            
+            usuario.verificado = True
+            usuario.codigo_verificacion = None
+            usuario.expiracion_codigo = None
+            db.session.commit()
+
+            flash("Correo verificado. Ya puedes iniciar sesión.")
+            return redirect(url_for('login'))
+        else:
+            flash("Código inválido o expirado.")
+
+    return render_template("verificar.html", correo=correo)
+
+def enviar_codigo_verificacion(correo, codigo):
+    remitente = "alertapteam@gmail.com"
+    clave_app = "makjbbeigmvofxlo"
+    msg = EmailMessage()
+    msg["Subject"] = "🔐 Código de verificación para tu cuenta en AlerTap"
+    msg["From"] = remitente
+    msg["To"] = correo
+    msg.set_content(f"""
+Hola,
+
+Gracias por registrarte en AlerTap.
+
+Tu código de verificación es: {codigo}
+
+Este código expirará en 15 minutos. Si no solicitaste esta cuenta, puedes ignorar este mensaje.
+
+— Equipo AlerTap
+""")
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(remitente, clave_app)
+            smtp.send_message(msg)
+            print("✅ Código de verificación enviado")
+    except Exception as e:
+        print("❌ Error al enviar código:", e)
 
 
 # === Iniciar app ===

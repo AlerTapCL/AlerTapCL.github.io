@@ -8,7 +8,8 @@
     "grupo_sanguineo": "O+",
     "contacto": {
       "nombre": "María Pérez",
-      "telefono": "+56 9 1234 5678"
+      "telefono": "+56 9 1234 5678",
+      "correo": "maria.perez@example.com"
     },
     "observaciones": "Tiene marcapasos. Solo habla español.",
     "activo": true

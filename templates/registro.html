@@ -15,8 +15,26 @@
     <div class="mb-3">
       <label for="contraseña" class="form-label">Contraseña</label>
       <input type="password" class="form-control" name="contraseña" required>
+      <small id="mensaje-contraseña" class="text-danger"></small>
     </div>
     <button type="submit" class="btn btn-primary">Registrarse</button>
   </form>
 </section>
+
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const password = document.querySelector('input[name="contraseña"]').value;
+    const mensaje = document.getElementById("mensaje-contraseña");
+
+    const esLarga = password.length >= 8;
+    const tieneMayuscula = /[A-Z]/.test(password);
+
+    if (!esLarga || !tieneMayuscula) {
+      e.preventDefault();
+      mensaje.textContent = "La contraseña debe tener al menos 8 caracteres y una letra mayúscula.";
+    } else {
+      mensaje.textContent = "";
+    }
+  });
+</script>
 {% endblock %}
